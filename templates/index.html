@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DIMAS AI</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>AI Sentiment Analysis by Dimas BR</h1>
+      <textarea
+        id="input-text"
+        rows="4"
+        cols="50"
+        placeholder="Enter text here..."
+      ></textarea
+      ><br />
+      <button onclick="analyzeSentiment()">Analyze Sentiment</button>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      async function analyzeSentiment() {
+        const text = document.getElementById("input-text").value;
+        const response = await fetch("/analyze", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `text=${encodeURIComponent(text)}`,
+        });
+        const data = await response.json();
+        document.getElementById("result").innerHTML = `
+                <p><strong>Sentiment:</strong> ${data.sentiment}</p>
+                <p><strong>Confidence:</strong> ${data.confidence.toFixed(
+                  2
+                )}</p>
+            `;
+      }
+    </script>
+  </body>
+</html>
