@@ -41,6 +41,22 @@
                 )}</p>
             `;
       }
+      async function generateText() {
+        const prompt = document.getElementById('generate-text').value;
+        const response = await fetch('/generate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `prompt=${encodeURIComponent(prompt)}`
+        });
+        const data = await response.json();
+        document.getElementById('generated-result').innerHTML = `
+            <p><strong>Generated Text:</strong> ${data.generated_text}</p>
+        `;
+    }
+</script>
     </script>
+    
   </body>
 </html>

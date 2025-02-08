@@ -19,5 +19,14 @@ def analyze():
         'confidence': result['score']
     })
 
+    # Di app.py
+text_generator = pipeline('text-generation', model='gpt2')
+
+@app.route('/generate', methods=['POST'])
+def generate():
+    prompt = request.form['prompt']
+    generated_text = text_generator(prompt, max_length=50)[0]['generated_text']
+    return jsonify({'generated_text': generated_text})
+
 if __name__ == '__main__':
     app.run(debug=True)
